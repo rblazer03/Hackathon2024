@@ -54,7 +54,7 @@ class Player(pygame.sprite.Sprite):
         self.vel += self.acc
         self.pos += self.vel + 0.5 * self.acc
         
-        # allows player to loop 
+        # keeps duck from going off screen
         if self.pos.x > WIDTH:
             self.pos.x = WIDTH
         if self.pos.x < 0:

@@ -20,9 +20,7 @@ pygame.display.set_caption("Game")
 class Player(pygame.sprite.Sprite):
     def __init__(self):
         super().__init__() 
-        #self.image = pygame.image.load("character.png")
-        self.surf = pygame.Surface((30, 30))
-        self.surf.fill((128,255,40))
+        self.surf = (pygame.image.load("assets/ide_normal/image1x1.png"))
         self.rect = self.surf.get_rect()
    
         self.pos = vec((10, 360))
@@ -104,4 +102,4 @@ while True:
         entity.move()
  
     pygame.display.update()
-    # FramePerSec.tick(FPS)
+    FramePerSec.tick(FPS)

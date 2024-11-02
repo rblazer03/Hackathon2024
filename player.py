@@ -91,7 +91,7 @@ class Platform(pygame.sprite.Sprite):
 
  
 PT1 = Ground()
-PT2 = Platform(150, 20, 300, 400)
+PT2 = Platform(100, 30, 300, 600)
 P1 = Player()
  
 all_sprites = pygame.sprite.Group()
@@ -101,6 +101,7 @@ all_sprites.add(P1)
  
 platforms = pygame.sprite.Group()
 platforms.add(PT1)
+platforms.add(PT2)
 
 characters = pygame.sprite.Group()
 characters.add(P1)

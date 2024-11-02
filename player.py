@@ -6,9 +6,9 @@ import random
 pygame.init()
 vec = pygame.math.Vector2 #2 for two dimensional
  
-# determine gme screen size
-HEIGHT = 450
-WIDTH = 400
+# determine the main platform size
+HEIGHT = 800
+WIDTH = 1000
 
 # control duck movement speed
 ACC = 0.5
@@ -17,9 +17,10 @@ FRIC = -0.12
 # control screen update speed
 FPS = 60
 FramePerSec = pygame.time.Clock()
- 
-displaysurface = pygame.display.set_mode((WIDTH, HEIGHT))
-pygame.display.set_caption("Game")
+
+# create main display
+gameDisplay = pygame.display.set_mode((WIDTH, HEIGHT))
+pygame.display.set_caption("Duck Jump")
  
 class Player(pygame.sprite.Sprite):
     def __init__(self):
@@ -73,7 +74,7 @@ class platform(pygame.sprite.Sprite):
     def __init__(self):
         super().__init__()
         self.surf = pygame.Surface((WIDTH, 20))
-        self.surf.fill((255,0,0))
+        self.surf.fill((0,128,0))
         self.rect = self.surf.get_rect(center = (WIDTH/2, HEIGHT - 10))
  
     def move(self):
@@ -98,12 +99,13 @@ while True:
         if event.type == pygame.KEYDOWN:    
             if event.key == pygame.K_SPACE:
                 P1.jump()
-         
-    displaysurface.fill((0,0,0))
+
+    # Fill the screen with a background color 
+    gameDisplay.fill((147, 210, 220))
     P1.update()
  
     for entity in all_sprites:
-        displaysurface.blit(entity.surf, entity.rect)
+        gameDisplay.blit(entity.surf, entity.rect)
         entity.move()
  
     pygame.display.update()

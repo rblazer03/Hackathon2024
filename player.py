@@ -68,7 +68,7 @@ class Player(pygame.sprite.Sprite):
                 self.pos.y = hits[0].rect.top + 1
  
  
-class platform(pygame.sprite.Sprite):
+class Ground(pygame.sprite.Sprite):
     def __init__(self):
         super().__init__()
         self.surf = pygame.Surface((WIDTH, 20))
@@ -77,12 +77,24 @@ class platform(pygame.sprite.Sprite):
  
     def move(self):
         pass
+
+class Platform(pygame.sprite.Sprite):
+    def __init__(self):
+        super().__init__()
+        self.surf = pygame.Surface((40, 20))
+        self.surf.fill((0,128,0))
+        self.rect = self.surf.get_rect(center = (WIDTH/2, HEIGHT - 70))
  
-PT1 = platform()
+    def move(self):
+        pass
+ 
+PT1 = Ground()
+PT2 = Platform()
 P1 = Player()
  
 all_sprites = pygame.sprite.Group()
 all_sprites.add(PT1)
+all_sprites.add(PT2)
 all_sprites.add(P1)
  
 platforms = pygame.sprite.Group()

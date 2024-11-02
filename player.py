@@ -10,8 +10,8 @@ HEIGHT = 450
 WIDTH = 400
 ACC = 0.5
 FRIC = -0.12
+
 FPS = 60
- 
 FramePerSec = pygame.time.Clock()
  
 displaysurface = pygame.display.set_mode((WIDTH, HEIGHT))
@@ -104,4 +104,4 @@ while True:
         entity.move()
  
     pygame.display.update()
-    FramePerSec.tick(FPS)
+    # FramePerSec.tick(FPS)

@@ -14,7 +14,7 @@ GRAVITY = 1
 PLAYER_SPEED = 5
 
 #player sprite
-player = Player(100, 300)
+player = Player(100, 300, GRAVITY, PLAYER_SPEED)
 all_sprites = pygame.sprite.Group(player)
 
 running = True

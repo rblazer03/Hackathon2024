@@ -82,14 +82,13 @@ class Ground(pygame.sprite.Sprite):
         pass
 
 class Platform(pygame.sprite.Sprite):
-    def __init__(self):
+    def __init__(self, width, height, x, y):
         super().__init__()
-        self.surf = pygame.Surface((40, 20))
-        self.surf.fill((0,128,0))
-        self.rect = self.surf.get_rect(center = (WIDTH/2, HEIGHT - 70))
- 
-    def move(self):
-        pass
+        # Create a platform surface with the given width and height
+        self.surf = pygame.Surface((width, height))
+        self.surf.fill((0, 128, 0))  # Fill with green color for visibility
+        self.rect = self.surf.get_rect(center=(x, y))  # Position the platform
+
  
 PT1 = Ground()
 PT2 = Platform(100, 30, 300, 600)
@@ -123,6 +122,8 @@ while True:
  
     for entity in all_sprites:
         gameDisplay.blit(entity.surf, entity.rect)
+        
+    for entity in characters:
         entity.move()
  
     pygame.display.update()

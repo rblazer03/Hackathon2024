@@ -43,7 +43,10 @@ class Player(pygame.sprite.Sprite):
         if pressed_keys[K_RIGHT]:
             self.acc.x = ACC
         if pressed_keys[K_UP]:
-            self.acc.y = -ACC
+            #jump limit
+            hits = pygame.sprite.spritecollide(self, platforms, False)
+            if hits:
+                self.vel.y = -15
 
         self.acc.x += self.vel.x * FRIC
         self.vel += self.acc
@@ -55,13 +58,6 @@ class Player(pygame.sprite.Sprite):
             self.pos.x = WIDTH
              
         self.rect.midbottom = self.pos
- 
-    # jump limits
-    def jump(self):
-        hits = pygame.sprite.spritecollide(self, platforms, False)
-        if hits:
-           self.vel.y = -15
-
  
  
     def update(self):
@@ -98,9 +94,9 @@ while True:
         if event.type == QUIT:
             pygame.quit()
             sys.exit()
-        if event.type == pygame.KEYDOWN:    
-            if event.key == pygame.K_SPACE:
-                P1.jump()
+        # if event.type == pygame.KEYDOWN:    
+        #     if event.key == pygame.K_SPACE:
+        #         P1.jump()
 
     # Fill the screen with a background color 
     gameDisplay.fill((147, 210, 220))

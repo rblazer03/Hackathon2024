@@ -22,7 +22,9 @@ FramePerSec = pygame.time.Clock()
 gameDisplay = pygame.display.set_mode((WIDTH, HEIGHT))
 pygame.display.set_caption("Duck Jump")
  
+
 class Player(pygame.sprite.Sprite):
+    # create/initialize sprite
     def __init__(self):
         super().__init__() 
         # creat sprite
@@ -51,7 +53,8 @@ class Player(pygame.sprite.Sprite):
         self.acc.x += self.vel.x * FRIC
         self.vel += self.acc
         self.pos += self.vel + 0.5 * self.acc
-         
+        
+        # allows player to loop 
         if self.pos.x > WIDTH:
             self.pos.x = 0
         if self.pos.x < 0:
@@ -59,7 +62,7 @@ class Player(pygame.sprite.Sprite):
              
         self.rect.midbottom = self.pos
  
- 
+    # keeps ducky from going through platforms
     def update(self):
         hits = pygame.sprite.spritecollide(P1 ,platforms, False)
         if P1.vel.y > 0:        

@@ -6,7 +6,7 @@ screen = pg.display.set_mode((400, 400))
 class Ducky(pg.sprite.Sprite):
     def __init__(self):
         super().__init__()
-        self.animation = [pg.image.load(f) for f in glob("assets/ducky_sprite.png")]
+        self.animation = [pg.image.load(f) for f in glob("assets/idle_bounce/image1x1.png")]
         self.image = self.animation[0]
         self.rect = self.image.get_rect()
 

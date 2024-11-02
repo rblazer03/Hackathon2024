@@ -1,13 +1,14 @@
 import pygame as pg
-import os
+from glob import glob
 
 screen = pg.display.set_mode((400, 400))
 
 class Ducky(pg.sprite.Sprite):
     def __init__(self):
         super().__init__()
-        self.image = pg.image.load("assets/ducky_sprite.png")
-        self.rect = self.image.get_rect
+        self.animation = [pg.image.load(f) for f in glob("assets/ducky_sprite.png")]
+        self.image = self.animation[0]
+        self.rect = self.image.get_rect()
 
 g = pg.sprite.Group()
 sprite = Ducky()

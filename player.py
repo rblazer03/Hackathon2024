@@ -1,3 +1,4 @@
+# Base code from: https://coderslegacy.com/python/pygame-platformer-game-development/
 import pygame
 from pygame.locals import *
 import sys
@@ -38,8 +39,7 @@ class Player(pygame.sprite.Sprite):
     def move(self):
         self.acc = vec(0,0.5)
     
-        pressed_keys = pygame.key.get_pressed()
-                
+        pressed_keys = pygame.key.get_pressed()    
         if pressed_keys[K_LEFT]:
             self.acc.x = -ACC
         if pressed_keys[K_RIGHT]:
@@ -56,9 +56,9 @@ class Player(pygame.sprite.Sprite):
         
         # allows player to loop 
         if self.pos.x > WIDTH:
-            self.pos.x = 0
-        if self.pos.x < 0:
             self.pos.x = WIDTH
+        if self.pos.x < 0:
+            self.pos.x = 0
              
         self.rect.midbottom = self.pos
  
@@ -82,16 +82,17 @@ class Ground(pygame.sprite.Sprite):
         pass
 
 class Platform(pygame.sprite.Sprite):
-    def __init__(self, width, height, x, y):
+    def __init__(self):
         super().__init__()
-        # Create a platform surface with the given width and height
-        self.surf = pygame.Surface((width, height))
-        self.surf.fill((0, 128, 0))  # Fill with green color for visibility
-        self.rect = self.surf.get_rect(center=(x, y))  # Position the platform
-
+        self.surf = pygame.Surface((40, 20))
+        self.surf.fill((0,128,0))
+        self.rect = self.surf.get_rect(center = (WIDTH/2, HEIGHT - 70))
+ 
+    def move(self):
+        pass
  
 PT1 = Ground()
-PT2 = Platform(150, 20, 300, 400)
+PT2 = Platform()
 P1 = Player()
  
 all_sprites = pygame.sprite.Group()
@@ -101,9 +102,6 @@ all_sprites.add(P1)
  
 platforms = pygame.sprite.Group()
 platforms.add(PT1)
-
-characters = pygame.sprite.Group()
-characters.add(P1)
  
  
 while True: 
@@ -118,11 +116,9 @@ while True:
     # Fill the screen with a background color 
     gameDisplay.fill((147, 210, 220))
     P1.update()
-    
+ 
     for entity in all_sprites:
         gameDisplay.blit(entity.surf, entity.rect)
-
-    for entity in characters:
         entity.move()
  
     pygame.display.update()

@@ -1,7 +1,7 @@
 import pygame
 
 class Player(pygame.sprite.Sprite):
-    def __init__(self, x, y, gravity, speed):
+    def __init__(self, x, y, gravity, speed, platforms):
         super().__init__() 
 
         # Load the sprite sheet image
@@ -17,6 +17,7 @@ class Player(pygame.sprite.Sprite):
         self.on_ground = False
         self.gravity = gravity
         self.speed = speed
+        self.platforms = platforms  # Store the platforms group
 
     def get_image(self, x, y):
         """Extracts image from sprite sheet"""
@@ -54,8 +55,18 @@ class Player(pygame.sprite.Sprite):
             self.on_ground = True
         else:
             self.on_ground = False
-            
-        # Check if fallen off bottom of screen
-        if self.rect.top > 600:
-            self.kill()
-    
+
+        # Check for collisions with platforms
+        hits = pygame.sprite.spritecollide(self, self.platforms, False)
+        if hits:
+            self.on_ground = True
+            self.vel_y = 0
+            self.rect.bottom = hits[0].rect.top  # Set player's bottom to top of the platform
+        else:
+            self.on_ground = False
+
+        # Wrap player around the screen
+        if self.rect.left < 0:
+            self.rect.left = 0
+        elif self.rect.right > 800:
+            self.rect.right = 800

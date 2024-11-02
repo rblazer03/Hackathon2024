@@ -6,11 +6,15 @@ import random
 pygame.init()
 vec = pygame.math.Vector2 #2 for two dimensional
  
+# determine gme screen size
 HEIGHT = 450
 WIDTH = 400
+
+# control duck movement speed
 ACC = 0.5
 FRIC = -0.12
 
+# control screen update speed
 FPS = 60
 FramePerSec = pygame.time.Clock()
  
@@ -20,9 +24,10 @@ pygame.display.set_caption("Game")
 class Player(pygame.sprite.Sprite):
     def __init__(self):
         super().__init__() 
+        # creat sprite
         self.surf = (pygame.image.load("assets/ide_normal/image1x1.png"))
         self.rect = self.surf.get_rect()
-   
+        # set sprite position and initial speed
         self.pos = vec((10, 360))
         self.vel = vec(0,0)
         self.acc = vec((0,0),(0,0))
@@ -38,7 +43,7 @@ class Player(pygame.sprite.Sprite):
             self.acc.x = ACC
         if pressed_keys[K_UP]:
             self.acc.y = -ACC
-                 
+
         self.acc.x += self.vel.x * FRIC
         self.vel += self.acc
         self.pos += self.vel + 0.5 * self.acc

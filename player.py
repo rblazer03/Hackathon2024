@@ -1,72 +1,107 @@
 import pygame
-
+from pygame.locals import *
+import sys
+import random
+ 
+pygame.init()
+vec = pygame.math.Vector2 #2 for two dimensional
+ 
+HEIGHT = 450
+WIDTH = 400
+ACC = 0.5
+FRIC = -0.12
+FPS = 60
+ 
+FramePerSec = pygame.time.Clock()
+ 
+displaysurface = pygame.display.set_mode((WIDTH, HEIGHT))
+pygame.display.set_caption("Game")
+ 
 class Player(pygame.sprite.Sprite):
-    def __init__(self, x, y, gravity, speed, platforms):
+    def __init__(self):
         super().__init__() 
-
-        # Load the sprite sheet image
-        self.sprite_sheet = pygame.image.load("ducky_2_spritesheet.png").convert()
-
-        # Create a surface for the player image and set its rect attribute
-        self.image = self.get_image(0, 0)
-        self.rect = self.image.get_rect()
-        self.rect.x = x
-        self.rect.y = y
-        self.vel_x = 0
-        self.vel_y = 0
-        self.on_ground = False
-        self.gravity = gravity
-        self.speed = speed
-        self.platforms = platforms  # Store the platforms group
-
-    def get_image(self, x, y):
-        """Extracts image from sprite sheet"""
-        image = pygame.Surface([32, 32])
-        image.blit(self.sprite_sheet, (0, 0), (x, y, 32, 32))
-        image.set_colorkey((0, 0, 0))  # Transparent black background
-        return image
-
-    def update(self):
-        """Update the player"""
-        # Apply gravity
-        self.vel_y += self.gravity
-
-        # Move left/right
-        keys = pygame.key.get_pressed()
-        if keys[pygame.K_LEFT]:
-            self.vel_x = -self.speed
-        elif keys[pygame.K_RIGHT]:
-            self.vel_x = self.speed
-        else:
-            self.vel_x = 0
-
-        # Jump if on the ground
-        if keys[pygame.K_UP] and self.on_ground:
-            self.vel_y = -20
-
-        # Update position
-        self.rect.x += self.vel_x
-        self.rect.y += self.vel_y
-
-        # Check if on the ground
-        if self.rect.bottom >= 600:  # Assuming ground level is at y=600
-            self.rect.bottom = 600
-            self.vel_y = 0
-            self.on_ground = True
-        else:
-            self.on_ground = False
-
-        # Check for collisions with platforms
-        hits = pygame.sprite.spritecollide(self, self.platforms, False)
+        #self.image = pygame.image.load("character.png")
+        self.surf = pygame.Surface((30, 30))
+        self.surf.fill((128,255,40))
+        self.rect = self.surf.get_rect()
+   
+        self.pos = vec((10, 360))
+        self.vel = vec(0,0)
+        self.acc = vec((0,0),(0,0))
+ 
+    def move(self):
+        self.acc = vec(0,0.5)
+    
+        pressed_keys = pygame.key.get_pressed()
+                
+        if pressed_keys[K_LEFT]:
+            self.acc.x = -ACC
+        if pressed_keys[K_RIGHT]:
+            self.acc.x = ACC
+        if pressed_keys[K_UP]:
+            self.acc.y = -ACC
+                 
+        self.acc.x += self.vel.x * FRIC
+        self.vel += self.acc
+        self.pos += self.vel + 0.5 * self.acc
+         
+        if self.pos.x > WIDTH:
+            self.pos.x = 0
+        if self.pos.x < 0:
+            self.pos.x = WIDTH
+             
+        self.rect.midbottom = self.pos
+ 
+    def jump(self):
+        hits = pygame.sprite.spritecollide(self, platforms, False)
         if hits:
-            self.on_ground = True
-            self.vel_y = 0
-            self.rect.bottom = hits[0].rect.top  # Set player's bottom to top of the platform
-        else:
-            self.on_ground = False
-
-        # Wrap player around the screen
-        if self.rect.left < 0:
-            self.rect.left = 0
-        elif self.rect.right > 800:
-            self.rect.right = 800
+           self.vel.y = -15
+ 
+ 
+    def update(self):
+        hits = pygame.sprite.spritecollide(P1 ,platforms, False)
+        if P1.vel.y > 0:        
+            if hits:
+                self.vel.y = 0
+                self.pos.y = hits[0].rect.top + 1
+ 
+ 
+class platform(pygame.sprite.Sprite):
+    def __init__(self):
+        super().__init__()
+        self.surf = pygame.Surface((WIDTH, 20))
+        self.surf.fill((255,0,0))
+        self.rect = self.surf.get_rect(center = (WIDTH/2, HEIGHT - 10))
+ 
+    def move(self):
+        pass
+ 
+PT1 = platform()
+P1 = Player()
+ 
+all_sprites = pygame.sprite.Group()
+all_sprites.add(PT1)
+all_sprites.add(P1)
+ 
+platforms = pygame.sprite.Group()
+platforms.add(PT1)
+ 
+ 
+while True: 
+    for event in pygame.event.get():
+        if event.type == QUIT:
+            pygame.quit()
+            sys.exit()
+        if event.type == pygame.KEYDOWN:    
+            if event.key == pygame.K_SPACE:
+                P1.jump()
+         
+    displaysurface.fill((0,0,0))
+    P1.update()
+ 
+    for entity in all_sprites:
+        displaysurface.blit(entity.surf, entity.rect)
+        entity.move()
+ 
+    pygame.display.update()
+    FramePerSec.tick(FPS)

@@ -11,7 +11,7 @@ WINDOW_HEIGHT = 600
 screen = pygame.display.set_mode((WINDOW_WIDTH, WINDOW_HEIGHT))
 pygame.display.set_caption("Duck Jump")
 
-GRAVITY = 1
+GRAVITY = 3
 PLAYER_SPEED = 1
 
 # Create sprite groups

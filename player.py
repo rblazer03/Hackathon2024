@@ -30,7 +30,6 @@ ducky_sprite = [pygame.image.load("assets/walk_bounce/image1x1.png"),
                 pygame.image.load("assets/walk_bounce/image4x1.png"),
                 pygame.image.load("assets/walk_bounce/image5x1.png"),
                 pygame.image.load("assets/walk_bounce/image6x1.png")]
-walking = False
 
 class Player(pygame.sprite.Sprite):
     # create/initialize sprite
@@ -43,21 +42,24 @@ class Player(pygame.sprite.Sprite):
         self.pos = vec((10, 360))
         self.vel = vec(0,0)
         self.acc = vec((0,0),(0,0))
+        self.walking = False
+        self.frame = 0
+        self.last_updated = pygame.time.get_ticks()
  
     def move(self):
         self.acc = vec(0,0.5)
-        frame = 0
     
         pressed_keys = pygame.key.get_pressed()    
         if pressed_keys[K_LEFT]:
             self.acc.x = -ACC
-            walking = True
-            P1.surf = ducky_sprite[frame]
-            frame +=1
-            if frame < 5:
-                frame = 0
-        if pressed_keys[K_RIGHT]:
+            self.walking = True
+        elif pressed_keys[K_RIGHT]:
             self.acc.x = ACC
+            self.walking = True
+        else:
+            self.walking = False
+
+
         if pressed_keys[K_UP]:
             #jump limit
             hits = pygame.sprite.spritecollide(self, platforms, False)
@@ -67,6 +69,8 @@ class Player(pygame.sprite.Sprite):
         self.acc.x += self.vel.x * FRIC
         self.vel += self.acc
         self.pos += self.vel + 0.5 * self.acc
+        
+            
         
         # keeps duck from going off screen
         if self.pos.x > WIDTH:
@@ -83,7 +87,20 @@ class Player(pygame.sprite.Sprite):
             if hits:
                 self.vel.y = 0
                 self.pos.y = hits[0].rect.top + 1
- 
+        if self.walking == True:
+            update_frame = pygame.time.get_ticks()
+            if update_frame - self.last_updated > 100:
+                self.last_updated = update_frame
+                self.surf = ducky_sprite[self.frame]
+                self.frame+=1
+                if self.frame > 5:
+                    self.frame = 0
+#  if self.walking:
+#             now = pygame.time.get_ticks()
+#             if now - self.last_update > 100:  # Change frame every 100 ms
+#                 self.last_update = now
+#                 self.frame = (self.frame + 1) % len(ducky_sprite)  # Cycle through frames
+#                 self.surf = ducky_sprite[self.frame]
  
 class Ground(pygame.sprite.Sprite):
     def __init__(self):
@@ -132,9 +149,6 @@ while True:
         if event.type == QUIT:
             pygame.quit()
             sys.exit()
-        # if event.type == pygame.KEYDOWN:    
-        #     if event.key == pygame.K_SPACE:
-        #         P1.jump()
 
     # Fill the screen with a background color 
     gameDisplay.fill((147, 210, 220))

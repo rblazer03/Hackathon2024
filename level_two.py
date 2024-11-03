@@ -1,7 +1,6 @@
 # Base code from: https://coderslegacy.com/python/pygame-platformer-game-development/
 # Duck sprite from: https://caz-creates-games.itch.io/ducky-2
 # Flag sprite from: https://decrebrian.itch.io/flag 
-import os
 import pygame
 from pygame.locals import *
 from pygame import mixer
@@ -212,7 +211,6 @@ while True:
 
         pygame.display.update()
         pygame.time.delay(2000)  # 2 seconds before closing
-        os.system('python level_two.py')
         pygame.quit()
         sys.exit()
  

@@ -1,4 +1,5 @@
 # Base code from: https://coderslegacy.com/python/pygame-platformer-game-development/
+# Duck sprite from: https://caz-creates-games.itch.io/ducky-2
 import pygame
 from pygame.locals import *
 from pygame import mixer
@@ -9,7 +10,7 @@ pygame.init()
 vec = pygame.math.Vector2 #2 for two dimensional
 
 mixer.init()
-mixer.music.load("Duck Jump Theme.wav")
+mixer.music.load("assets/Duck Jump Theme.wav")
 mixer.music.set_volume(0.7)
 mixer.music.play(-1)
  

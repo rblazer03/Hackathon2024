@@ -129,7 +129,7 @@ class Flag(pygame.sprite.Sprite):
     def __init__(self):
         super().__init__()
         self.surf = (pygame.image.load("assets/flag/image1x1.png"))
-        self.rect = self.surf.get_rect(center=(650,270))
+        self.rect = self.surf.get_rect(center=(890, 370))
         self.frame = 0
         self.last_updated = pygame.time.get_ticks()
     
@@ -161,9 +161,12 @@ class Platform(pygame.sprite.Sprite):
 
  
 PT1 = Ground()
-PT2 = Platform(100, 30, 530, 600)
-PT3 = Platform(100, 30, 300, 350)
-PT4 = Platform(100, 30, 600, 300)
+PT2 = Platform(10, 10, 600, 100)
+PT3 = Platform(10, 10, 540, 585)
+PT4 = Platform(40, 10, 865, 400)
+PT5 = Platform(10, 10, 365, 365)
+PT6 = Platform(10, 10, 130, 300)
+PT7 = Platform(10, 10, 335, 100)
 P1 = Player()
 Flag1 = Flag()
  
@@ -172,6 +175,9 @@ all_sprites.add(PT1)
 all_sprites.add(PT2)
 all_sprites.add(PT3)
 all_sprites.add(PT4)
+all_sprites.add(PT5)
+all_sprites.add(PT6)
+all_sprites.add(PT7)
 all_sprites.add(P1)
 all_sprites.add(Flag1)
  
@@ -180,6 +186,9 @@ platforms.add(PT1)
 platforms.add(PT2)
 platforms.add(PT3)
 platforms.add(PT4)
+platforms.add(PT5)
+platforms.add(PT6)
+platforms.add(PT7)
 
 characters = pygame.sprite.Group()
 characters.add(P1)

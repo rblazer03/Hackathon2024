@@ -36,8 +36,8 @@ ducky_walking = [pygame.image.load("assets/walk_bounce/image1x1.png"),
                 pygame.image.load("assets/walk_bounce/image4x1.png"),
                 pygame.image.load("assets/walk_bounce/image5x1.png"),
                 pygame.image.load("assets/walk_bounce/image6x1.png")]
-ducky_idle = [pygame.image.load("assets/idle_bounce/image1.png"),
-                pygame.image.load("assets/idle_bounce/image2.png"),
+ducky_idle = [pygame.image.load("assets/idle_bounce/image1x1.png"),
+                pygame.image.load("assets/idle_bounce/image2x1.png"),
                 pygame.image.load("assets/idle_bounce/image3x1.png"),
                 pygame.image.load("assets/idle_bounce/image4x1.png")]
 
@@ -46,7 +46,7 @@ class Player(pygame.sprite.Sprite):
     def __init__(self):
         super().__init__() 
         # creat sprite
-        self.surf = (pygame.image.load("assets/ide_normal/image1x1.png"))
+        self.surf = (pygame.image.load("assets/idle_bounce/image1x1.png"))
         self.rect = self.surf.get_rect()
         # set sprite position and initial speed
         self.pos = vec((10, 360))

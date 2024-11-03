@@ -41,6 +41,13 @@ ducky_idle = [pygame.image.load("assets/idle_bounce/image1x1.png"),
                 pygame.image.load("assets/idle_bounce/image2x1.png"),
                 pygame.image.load("assets/idle_bounce/image3x1.png"),
                 pygame.image.load("assets/idle_bounce/image4x1.png")]
+flag_waving = [pygame.image.load("assets/flag/image1x1.png"),
+                pygame.image.load("assets/flag/image2x1.png"),
+                pygame.image.load("assets/flag/image3x1.png"),
+                pygame.image.load("assets/flag/image4x1.png"),
+                pygame.image.load("assets/flag/image5x1.png"),
+                pygame.image.load("assets/flag/image6x1.png"),
+                pygame.image.load("assets/flag/image7x1.png")]
 
 class Player(pygame.sprite.Sprite):
     # create/initialize sprite
@@ -116,7 +123,23 @@ class Player(pygame.sprite.Sprite):
                 self.last_updated = update_frame
                 self.frame = (self.frame + 1) % len(ducky_idle)
                 self.surf = ducky_idle[self.frame]
- 
+
+class Flag(pygame.sprite.Sprite):
+    def __init__(self):
+        super().__init__()
+        self.surf = (pygame.image.load("assets/flag/image1x1.png"))
+        self.rect = self.surf.get_rect(center=(100,200))
+        self.frame = 0
+        self.last_updated = pygame.time.get_ticks()
+    
+    def wave(self):
+        update_frame = pygame.time.get_ticks()
+        if update_frame - self.last_updated > 100:
+            self.last_updated = update_frame
+            self.frame = (self.frame + 1) % len(flag_waving)
+            self.surf = flag_waving[self.frame]
+
+
 class Ground(pygame.sprite.Sprite):
     def __init__(self):
         super().__init__()
@@ -141,6 +164,7 @@ PT2 = Platform(100, 30, 530, 600)
 PT3 = Platform(100, 30, 300, 350)
 PT4 = Platform(100, 30, 600, 300)
 P1 = Player()
+Flag1 = Flag()
  
 all_sprites = pygame.sprite.Group()
 all_sprites.add(PT1)
@@ -148,6 +172,7 @@ all_sprites.add(PT2)
 all_sprites.add(PT3)
 all_sprites.add(PT4)
 all_sprites.add(P1)
+all_sprites.add(Flag1)
  
 platforms = pygame.sprite.Group()
 platforms.add(PT1)
@@ -168,6 +193,7 @@ while True:
     # Fill the screen with a background color 
     gameDisplay.fill((147, 210, 220))
     P1.update()
+    Flag1.wave()
  
     for entity in all_sprites:
         gameDisplay.blit(entity.surf, entity.rect)

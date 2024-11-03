@@ -1,6 +1,7 @@
 # Base code from: https://coderslegacy.com/python/pygame-platformer-game-development/
 # Duck sprite from: https://caz-creates-games.itch.io/ducky-2
 # Flag sprite from: https://decrebrian.itch.io/flag 
+import os
 import pygame
 from pygame.locals import *
 from pygame import mixer
@@ -129,7 +130,7 @@ class Flag(pygame.sprite.Sprite):
     def __init__(self):
         super().__init__()
         self.surf = (pygame.image.load("assets/flag/image1x1.png"))
-        self.rect = self.surf.get_rect(center=(50,100))
+        self.rect = self.surf.get_rect(center=(890, 370))
         self.frame = 0
         self.last_updated = pygame.time.get_ticks()
     
@@ -161,11 +162,12 @@ class Platform(pygame.sprite.Sprite):
 
  
 PT1 = Ground()
-PT2 = Platform(70, 30, WIDTH, 600)
-PT3 = Platform(40, 30, 730, 500)
-PT4 = Platform(40, 30, 600, 500)
-PT5 = Platform(30, 30, 390, 350)
-PT6 = Platform(20, 30, 200, 200)
+PT2 = Platform(10, 10, 600, 100)
+PT3 = Platform(10, 10, 540, 585)
+PT4 = Platform(40, 10, 865, 400)
+PT5 = Platform(10, 10, 365, 365)
+PT6 = Platform(10, 10, 130, 300)
+PT7 = Platform(10, 10, 335, 100)
 P1 = Player()
 Flag1 = Flag()
  
@@ -176,6 +178,7 @@ all_sprites.add(PT3)
 all_sprites.add(PT4)
 all_sprites.add(PT5)
 all_sprites.add(PT6)
+all_sprites.add(PT7)
 all_sprites.add(P1)
 all_sprites.add(Flag1)
  
@@ -186,6 +189,7 @@ platforms.add(PT3)
 platforms.add(PT4)
 platforms.add(PT5)
 platforms.add(PT6)
+platforms.add(PT7)
 
 characters = pygame.sprite.Group()
 characters.add(P1)

@@ -128,7 +128,7 @@ class Flag(pygame.sprite.Sprite):
     def __init__(self):
         super().__init__()
         self.surf = (pygame.image.load("assets/flag/image1x1.png"))
-        self.rect = self.surf.get_rect(center=(100,200))
+        self.rect = self.surf.get_rect(center=(650,270))
         self.frame = 0
         self.last_updated = pygame.time.get_ticks()
     
@@ -200,6 +200,18 @@ while True:
         
     for entity in characters:
         entity.move()
+
+    flag_hit = pygame.sprite.collide_rect(P1, Flag1)
+    if flag_hit:
+        # End the game with a message
+        font = pygame.font.Font(None, 74)
+        text = font.render("You Win!", True, (255, 255, 255))
+        gameDisplay.blit(text, (WIDTH // 2 - 100, HEIGHT // 2 - 50))
+
+        pygame.display.update()
+        pygame.time.delay(2000)  # 2 seconds before closing
+        pygame.quit()
+        sys.exit()
  
     pygame.display.update()
     FramePerSec.tick(FPS)

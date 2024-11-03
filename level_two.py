@@ -218,6 +218,7 @@ while True:
 
         pygame.display.update()
         pygame.time.delay(2000)  # 2 seconds before closing
+        mixer.music.stop()
         os.system('python level_three.py')
         pygame.quit()
         sys.exit()

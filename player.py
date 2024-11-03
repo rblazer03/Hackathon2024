@@ -30,12 +30,16 @@ gameDisplay = pygame.display.set_mode((WIDTH, HEIGHT))
 pygame.display.set_caption("Duck Jump")
 
 #sprite animations
-ducky_sprite = [pygame.image.load("assets/walk_bounce/image1x1.png"),
+ducky_walking = [pygame.image.load("assets/walk_bounce/image1x1.png"),
                 pygame.image.load("assets/walk_bounce/image2x1.png"),
                 pygame.image.load("assets/walk_bounce/image3x1.png"),
                 pygame.image.load("assets/walk_bounce/image4x1.png"),
                 pygame.image.load("assets/walk_bounce/image5x1.png"),
                 pygame.image.load("assets/walk_bounce/image6x1.png")]
+ducky_idle = [pygame.image.load("assets/idle_bounce/image1.png"),
+                pygame.image.load("assets/idle_bounce/image2.png"),
+                pygame.image.load("assets/idle_bounce/image3x1.png"),
+                pygame.image.load("assets/idle_bounce/image4x1.png")]
 
 class Player(pygame.sprite.Sprite):
     # create/initialize sprite
@@ -49,6 +53,8 @@ class Player(pygame.sprite.Sprite):
         self.vel = vec(0,0)
         self.acc = vec((0,0),(0,0))
         self.walking = False
+        self.jumping = False
+        self.idle = True
         self.frame = 0
         self.last_updated = pygame.time.get_ticks()
  
@@ -59,11 +65,14 @@ class Player(pygame.sprite.Sprite):
         if pressed_keys[K_LEFT]:
             self.acc.x = -ACC
             self.walking = True
+            self.idle = False
         elif pressed_keys[K_RIGHT]:
             self.acc.x = ACC
             self.walking = True
+            self.idle = False
         else:
             self.walking = False
+            self.idle = True
 
 
         if pressed_keys[K_UP]:
@@ -93,20 +102,19 @@ class Player(pygame.sprite.Sprite):
             if hits:
                 self.vel.y = 0
                 self.pos.y = hits[0].rect.top + 1
+        # animation based on images changed every 100 ms
         if self.walking == True:
             update_frame = pygame.time.get_ticks()
             if update_frame - self.last_updated > 100:
                 self.last_updated = update_frame
-                self.surf = ducky_sprite[self.frame]
-                self.frame+=1
-                if self.frame > 5:
-                    self.frame = 0
-#  if self.walking:
-#             now = pygame.time.get_ticks()
-#             if now - self.last_update > 100:  # Change frame every 100 ms
-#                 self.last_update = now
-#                 self.frame = (self.frame + 1) % len(ducky_sprite)  # Cycle through frames
-#                 self.surf = ducky_sprite[self.frame]
+                self.frame = (self.frame + 1) % len(ducky_walking)
+                self.surf = ducky_walking[self.frame]
+        if self.idle == True:
+            update_frame = pygame.time.get_ticks()
+            if update_frame - self.last_updated > 100:
+                self.last_updated = update_frame
+                self.frame = (self.frame + 1) % len(ducky_idle)
+                self.surf = ducky_idle[self.frame]
  
 class Ground(pygame.sprite.Sprite):
     def __init__(self):

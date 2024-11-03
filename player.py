@@ -28,7 +28,15 @@ FramePerSec = pygame.time.Clock()
 # create main display
 gameDisplay = pygame.display.set_mode((WIDTH, HEIGHT))
 pygame.display.set_caption("Duck Jump")
- 
+
+#sprite animations
+ducky_sprite = [pygame.image.load("assets/walk_bounce/image1x1.png"),
+                pygame.image.load("assets/walk_bounce/image2x1.png"),
+                pygame.image.load("assets/walk_bounce/image3x1.png"),
+                pygame.image.load("assets/walk_bounce/image4x1.png"),
+                pygame.image.load("assets/walk_bounce/image5x1.png"),
+                pygame.image.load("assets/walk_bounce/image6x1.png")]
+walking = False
 
 class Player(pygame.sprite.Sprite):
     # create/initialize sprite
@@ -44,10 +52,16 @@ class Player(pygame.sprite.Sprite):
  
     def move(self):
         self.acc = vec(0,0.5)
+        frame = 0
     
         pressed_keys = pygame.key.get_pressed()    
         if pressed_keys[K_LEFT]:
             self.acc.x = -ACC
+            walking = True
+            P1.surf = ducky_sprite[frame]
+            frame +=1
+            if frame < 5:
+                frame = 0
         if pressed_keys[K_RIGHT]:
             self.acc.x = ACC
         if pressed_keys[K_UP]:
